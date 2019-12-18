@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+// Import a Font
+@mixin fontFace($family, $src, $style: normal, $weight: normal) {
+	@font-face {
+		font-family: $family;
+		src: url('../assets/fonts/#{$src}.ttf') format('truetype');
+		font-style: $style;
+		font-weight: $weight;
+	}
+}
+
+// @include fontFace('Roboto Mono', 'RobotoMono-Italic', italic, 400);
+// @include fontFace('Roboto Mono', 'RobotoMono-Light', normal, 300);
+// @include fontFace('Roboto Mono', 'RobotoMono-Regular', normal, 400);
+// @include fontFace('Roboto Mono', 'RobotoMono-Medium', normal, 500);
+// @include fontFace('Roboto Mono', 'RobotoMono-Medium', normal, 600);
+// @include fontFace('Roboto Mono', 'RobotoMono-Bold', normal, 700);
+
+// https://bulma.io/documentation/customize/variables/
+// $family-primary: "Roboto Mono", monospacee;
+
+.select, .select select {
+	width: 100%;
+}
+
+@import "../../node_modules/bulma/bulma.sass";
+
+$material-icons-font-path: '../../node_modules/material-icons/iconfont/';
+@import '../../node_modules/material-icons/iconfont/material-icons.scss';

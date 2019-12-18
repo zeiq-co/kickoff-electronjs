@@ -1,0 +1,137 @@
+{
+  "name": "kickoff-electron",
+  "description": "App build using create-react-app and Electron.",
+  "author": "Parminder Klair",
+  "version": "0.0.1",
+  "private": true,
+  "main": "build/electron.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron electron/main.js\"",
+    "react-start": "react-scripts start",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "react:build": "react-scripts build",
+    "electron:build": "yarn build-electron && yarn copy-electron",
+    "build-electron": "webpack",
+    "copy-electron": "cp -r ./electron/icons/. ./build/icons && cp -r ./electron-public/. ./build",
+    "build": "yarn react:build && yarn electron:build",
+    "clean": "rm -rf ./build && rm -rf ./dist",
+    "electron-pack": "yarn clean && yarn build && yarn electron-builder",
+    "build-cross-platform": "yarn clean && yarn build && cross-env SKIP_SIGN=true yarn electron-builder --mac --win --linux && yarn copy-electron",
+    "ship": "node scripts/ship.js",
+    "lint": "eslint --fix --ext .jsx,.js src/*.js src/**/*.js",
+    "lint-two": "NODE_ENV=production lint-staged",
+    "css-build": "node-sass --omit-source-map-url src/styles/styles.scss src/styles/styles.css",
+    "css-watch": "npm run css-build -- --watch",
+    "babel": "babel"
+  },
+  "dependencies": {
+    "cross-env": "^6.0.3",
+    "easy-peasy": "^3.2.3",
+    "electron-better-ipc": "^0.7.0",
+    "electron-debug": "^3.0.1",
+    "electron-dl": "^1.14.0",
+    "electron-is-dev": "1.1.0",
+    "electron-log": "^3.0.8",
+    "electron-notarize": "^0.2.1",
+    "electron-timber": "^0.5.1",
+    "electron-unhandled": "^3.0.1",
+    "electron-util": "^0.13.0",
+    "electron-window-state": "^5.0.3",
+    "formik": "^2.0.6",
+    "is-online": "^8.2.1",
+    "localforage": "^1.7.3",
+    "lodash": "^4.17.15",
+    "material-icons": "^0.3.1",
+    "menubar": "^7.1.0",
+    "pouchdb-adapter-idb": "^7.1.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
+    "react-loading": "^2.0.3",
+    "react-router-dom": "^5.1.2",
+    "redux-persist": "^6.0.0",
+    "rxdb": "^8.7.3",
+    "rxjs": "^6.5.3",
+    "styled-components": "^4.4.1",
+    "sweetalert": "^2.1.2",
+    "update-electron-app": "^1.2.0",
+    "yup": "^0.27.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-do-expressions": "^6.22.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "babel-preset-minify": "^0.4.3",
+    "bulma": "^0.8.0",
+    "chalk": "^3.0.0",
+    "concurrently": "4.1.2",
+    "current-git-branch": "^1.1.0",
+    "electron": "6.0.11",
+    "electron-builder": "^21.2.0",
+    "electron-devtools-installer": "^2.2.4",
+    "env-cmd": "^10.0.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "lint-staged": "^9.4.2",
+    "node-sass": "^4.13.0",
+    "prettier": "^1.4.4",
+    "prompts": "^2.3.0",
+    "react-scripts": "3.1.2",
+    "semver": "^6.3.0",
+    "shelljs": "^0.8.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "versiony": "^2.0.1",
+    "wait-on": "3.3.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "build": {
+    "productName": "KickoffElectron",
+    "appId": "co.zeiq.kickoff-electron",
+    "afterSign": "./scripts/after-sign-hook.js",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "publish": {
+      "provider": "github"
+    },
+    "mac": {
+      "icon": "electron-public/icon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "electron-public/icon.png",
+      "artifactName": "${productName}-${version}.${ext}"
+    },
+    "extraMetadata": {
+      "main": "build/electron.js"
+    },
+    "compression": "maximum"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
